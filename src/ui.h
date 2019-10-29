@@ -14,8 +14,9 @@ class UI
     public:
     
     // Constructor and Deconstructors
-    UI(World &world, Building &building, Controller &controller): _world(world), _building(building), _controller(controller) {};
-    ~UI() {};
+    UI(std::shared_ptr<World> world, std::shared_ptr<Building> building, std::shared_ptr<Controller> controller): 
+        _world(world), _building(building), _controller(controller) {};
+    //~UI() {};
 
     // Getters and Setters
 
@@ -25,10 +26,13 @@ class UI
     private:
     // Typical behaviour methods
     void _UpdateUI();    // Private method to simluate the User Interface
+    void _PrintTimeOfDay();
+    void _PrintAmbientTemp();
 
-    World _world;
-    Building _building;
-    Controller _controller;
+
+    std::shared_ptr<World> _world;
+    std::shared_ptr<Building> _building;
+    std::shared_ptr<Controller> _controller;
 };
 
 #endif

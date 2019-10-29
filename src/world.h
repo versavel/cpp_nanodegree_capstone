@@ -10,14 +10,15 @@ class World
     public:
     
     // Constructor and Deconstructors
-    World(long time_step): _time_step(time_step) {}
-    ~World() {};
+    World(long time_step);
+    //~World();
 
     // Getters and Setters
-    double getClock();
-    double getAmbientTemperature();
-    double getSolarRadiationLevel();
-    double getSolarAngle();
+    long Clock();
+    long TimeOfDay();
+    double AmbientTemperature();
+    double SolarRadiationLevel();
+    double AzimuthAngle();
 
     // Typical behaviour methods
     void simulate();    // Public method to start simulating the World environment
@@ -27,15 +28,17 @@ class World
     // Typical behaviour methods
     void _UpdateWorld();    // Private method to simluate the World environment
     void _UpdateClock();
+    void _UpdateTimeOfDay();
     void _UpdateAmbientTemperature();
     void _UpdateSolarRadiationLevel();
-    void _UpdateSolarAngle();
+    void _UpdateAzimuthAngle();
 
     long _time_step;
     long _clock;
+    long _time_of_day;
     double _ambient_temperature;
     double _solar_radiation; 
-    double _solar_angle;
+    double _azimuth_angle;
 };
 
 #endif
