@@ -3,11 +3,12 @@
 #include <iostream>
 #include "world.h"
 
-double const & pi = M_PI;
-long const kSecInHour = 3600;
-long const kSecInDay = 24 * kSecInHour;
+// static constants
+static double const & pi = M_PI;
+static long const kSecInHour = 3600;
+static long const kSecInDay = 24 * kSecInHour;
 
-
+// 
 double radians(double seconds)
 {
     return seconds * (2*pi) / kSecInDay;
@@ -16,7 +17,7 @@ double radians(double seconds)
 // Constructor
 World::World(long time_step)
 {
-    _clock = 0; // 82800;
+    _clock = 43200/2*1.5; // 82800;
     _time_step = time_step;
     _time_of_day = 0;
     _ambient_temperature = 383;
@@ -28,27 +29,27 @@ World::World(long time_step)
 //World::~World() {};
 
 // Return simalation clock value (seconds)
-long World::Clock()
+long World::clock()
 {
     return _clock;
 }
 
-double World::AmbientTemperature()
+double World::ambientTemperature()
 {
     return _ambient_temperature;
 }
 
-long World::TimeOfDay()
+long World::timeOfDay()
 {
     return _time_of_day;
 }
 
-double World::SolarRadiationLevel()
+double World::solarRadiationLevel()
 {
     return _solar_radiation;
 }
 
-double World::AzimuthAngle()
+double World::azimuthAngle()
 {
     return _azimuth_angle;
 }
@@ -57,28 +58,28 @@ double World::AzimuthAngle()
 // Public method to start simulating the World environment
 void World::simulate()
 {
-    _UpdateWorld();
+    updateWorld();
 }
 
 // Private method to simluate the World environment
-void World::_UpdateWorld()
+void World::updateWorld()
 {
-    _UpdateClock();
-    _UpdateTimeOfDay();
-    _UpdateAmbientTemperature();
-    _UpdateSolarRadiationLevel();
-    _UpdateAzimuthAngle();
+    updateClock();
+    updateTimeOfDay();
+    updateAmbientTemperature();
+    updateSolarRadiationLevel();
+    updateAzimuthAngle();
 
 }
 
 // Updat the clock used by simulation functions. Units: seconds
-void World::_UpdateClock()
+void World::updateClock()
 {
     _clock = _clock + _time_step;
 }
 
 // Update the time of day. Units: seconds
-void World::_UpdateTimeOfDay()
+void World::updateTimeOfDay()
 {
     _time_of_day = _clock % kSecInDay;
 }
@@ -86,7 +87,7 @@ void World::_UpdateTimeOfDay()
 // Update the ambient/outdoor temperature. Units: K (Kelvin)
 //      The ambient temperature is a sine wave swinging between 5 and 15C.
 //      It peaks at 3 pm and has a 5 degree amplitude (i.e. 10 degree peak to bottom), 
-void World::_UpdateAmbientTemperature()
+void World::updateAmbientTemperature()
 {
     _ambient_temperature = (10 + 273) + 5 * std::cos(radians(_clock - 15*kSecInHour));
 }
@@ -94,17 +95,17 @@ void World::_UpdateAmbientTemperature()
 // Update the level of solar radiation. Units: W m-2
 //      The level of solar is modeled here as the positive part of a sine wave,
 //      starting and ending at 6 am and 6 pm, respectively.
-//      Its peak level is 1000 W m-2, at 12 pm noon.
-void World::_UpdateSolarRadiationLevel()
+//      Its peak level is 100 W m-2, at 12 pm noon.
+void World::updateSolarRadiationLevel()
 {
-    _solar_radiation = 1000 * std::max(std::sin(radians(_time_of_day - 6*kSecInHour)), 0.);
+    _solar_radiation = 100 * std::max(std::sin(radians(_time_of_day - 6*kSecInHour)), 0.);
 }
 
-// Update the azimuth angle of the sun, relative to the sun. Units: radians
+// Update the azimuth angle of the sun, relative to the sun. Units: degrees
 //      The azimuth angle is modeled as 90 degrees (East) at sunrise (6 am),
 //      180 degrees (South) at 12 pm noon, and 270 degrees (West) at sunset (6pm).
-void World::_UpdateAzimuthAngle()
+void World::updateAzimuthAngle()
 {
-    _azimuth_angle = radians(_time_of_day);
+    _azimuth_angle = double(_time_of_day) / 240;
 }
 

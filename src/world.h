@@ -14,11 +14,11 @@ class World
     //~World();
 
     // Getters and Setters
-    long Clock();
-    long TimeOfDay();
-    double AmbientTemperature();
-    double SolarRadiationLevel();
-    double AzimuthAngle();
+    long clock();
+    long timeOfDay();
+    double ambientTemperature();
+    double solarRadiationLevel();
+    double azimuthAngle();
 
     // Typical behaviour methods
     void simulate();    // Public method to start simulating the World environment
@@ -26,12 +26,12 @@ class World
     private:
     
     // Typical behaviour methods
-    void _UpdateWorld();    // Private method to simluate the World environment
-    void _UpdateClock();
-    void _UpdateTimeOfDay();
-    void _UpdateAmbientTemperature();
-    void _UpdateSolarRadiationLevel();
-    void _UpdateAzimuthAngle();
+    void updateWorld();    // Private method to simluate the World environment
+    void updateClock();
+    void updateTimeOfDay();
+    void updateAmbientTemperature();
+    void updateSolarRadiationLevel();
+    void updateAzimuthAngle();
 
     long _time_step;
     long _clock;

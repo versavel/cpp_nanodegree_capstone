@@ -13,8 +13,8 @@ class Controller
     public:
     
     // Constructor and Deconstructors
-    Controller(World &world, Building &building): _world(world), _building(building) {};
-    ~Controller() {};
+    Controller(std::shared_ptr<World> world, std::shared_ptr<Building> building): _world(world), _building(building) {};
+    //~Controller() {};
 
     // Getters and Setters
 
@@ -24,15 +24,15 @@ class Controller
     private:
     
     // Typical behaviour methods
-    void _UpdateController();    // Private method to simluate the Controller
-    void _UpdateHeatersAndWindows();    // update whether the heater (on/off) 
+    void updateController();    // Private method to simluate the Controller
+    void updateHeatersAndWindows();    // update whether the heater (on/off) 
                                         // and window (open/closed) in each room
-    void _UpdateFan();  // update whether the fan should be on or off
+    void updateFan();  // update whether the fan should be on or off
     double averageRoomTemperature();   // return the average room temperature
     double maxBuildingTemperature();   // return the maximum room temperature
     double minBuildingTemperature();   // return the minimum room temperature
-    World _world;
-    Building _building;
+    std::shared_ptr<World> _world;
+    std::shared_ptr<Building> _building;
 };
 
 #endif

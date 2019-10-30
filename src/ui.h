@@ -25,10 +25,11 @@ class UI
     
     private:
     // Typical behaviour methods
-    void _UpdateUI();    // Private method to simluate the User Interface
-    void _PrintTimeOfDay();
-    void _PrintAmbientTemp();
-
+    void updateUI();    // Private method to simluate the User Interface
+    void printTimeOfDay();
+    void printAmbientTemp();
+    void printSolarInfo();
+    void printRoomTemperatures();
 
     std::shared_ptr<World> _world;
     std::shared_ptr<Building> _building;

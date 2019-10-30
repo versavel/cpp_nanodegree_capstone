@@ -9,8 +9,8 @@
 
 int main() {
     
-    // set simulation time step, in seconds
-    long time_step = 5 * 60;
+    // set simulation time step
+    long time_step = 5 * 60; // seconds
 
     // declare class instances
     std::shared_ptr<World> world (new World(time_step));
@@ -18,14 +18,13 @@ int main() {
     std::shared_ptr<Controller> controller (new Controller(world, building));
     std::shared_ptr<UI> ui (new UI(world, building, controller));
 
-    while(true)
-    {
+    //while(true)
+    //{
         world->simulate();
-        //building->simulate();
+        building->simulate();
         //controller->simulate();
         ui->simulate();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //}
     return 0;
 }

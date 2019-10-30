@@ -1,12 +1,15 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
+#include <iostream>
+#include <math.h>
 #include <vector>
 #include "world.h"
 
-enum room {north, east, south, west };
-enum on_off {on, off};
-enum open_closed { open, closed };
+enum room_enum {North, East, South, West};
+enum fan_enum {fan_on, fan_off};
+enum heater_enum {heat_on, heat_off};
+enum window_enum {open, closed};
 
 class Building 
 {
@@ -18,17 +21,27 @@ class Building
     public:
     
     // Constructor and Deconstructors
-    Building(World & world): _world(world) {}
-    ~Building() {};
+    Building(std::shared_ptr<World> world): _world(world)
+    {
+        _fan_state = fan_enum::fan_off;
+        for (int i=0; i < 4; i++ ) _heater_state.push_back(heater_enum::heat_off);
+        for (int i=0; i < 4; i++ ) _window_state.push_back(window_enum::closed);
+        for (int i=0; i < 4; i++ ) _actual_temperature.push_back(273+20+pow(-1,i)*5*i);
+        _last_clock = _world->clock();
+        _current_clock = _world->clock();
+        _interval = 0;
+    };
+    
+    //~Building() {};
 
     // Getters and Setters
-    on_off getFan();
-    on_off getHeater();
-    open_closed getWindow();
-    void setFan(on_off);
-    void setHeater(on_off);
-    void setWindow(open_closed);
-    std::vector<double> getRoomTemperatures();   // return the room temperatures
+    fan_enum getFan();
+    heater_enum getHeater(room_enum);
+    window_enum getWindow(room_enum);
+    void setFan(fan_enum);
+    void setHeater(room_enum, heater_enum);
+    void setWindow(room_enum, window_enum);
+    double roomTemperature(room_enum);   // return the room temperatures
 
     // Typical behaviour methods
     void simulate();    // Public method to start simulating the Building environment
@@ -36,19 +49,21 @@ class Building
     private:
     
     // Typical behaviour methods
-    void _UpdateBuilding();    // Private method to simluate the Building environment
-    void _UpdateActualTemperatures();   // Calculate the actual room temperatures
-    std::vector<double> _DeltaTempMixing();// Calculate room temperature change due to mixing
-    std::vector<double> _DeltaTempSolar();// Calculate room temperature change due to Solar Radiation 
-    std::vector<double> _DeltaTempBlackBodyRadiation();// Calculate room temperature change due to Black Body Radiation 
+    void updateBuilding();    // Private method to simluate the Building environment
+    void updateActualTemperatures();   // Calculate the actual room temperatures
+    std::vector<double> deltaTempFanMixing();// Calculate room temperature changes due to air mixing by the fan
+    std::vector<double> deltaTempWindowVenting();// Calculate room temperature changes due to venting through the open windows
+    std::vector<double> deltaTempSolar();// Calculate room temperature changes due to Solar Radiation 
+    std::vector<double> deltaTempBlackBodyRadiation();// Calculate room temperature changes due to Black Body Radiation 
     
     std::vector<double> _actual_temperature;
-    on_off _fan_status;
-    std::vector<on_off> _heater_status;
-    std::vector<open_closed> _window_status;
+    fan_enum _fan_state;
+    std::vector<heater_enum> _heater_state;
+    std::vector<window_enum> _window_state;
     long _last_clock; // clock value of last update, in sec
     long _current_clock; // clock value of current update, in sec
-    World _world;
+    long _interval; // time between last two clock updates, in sec
+    std::shared_ptr<World> _world;
 };
 
 #endif
