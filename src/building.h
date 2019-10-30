@@ -36,12 +36,12 @@ class Building
 
     // Getters and Setters
     fan_enum getFan();
-    heater_enum getHeater(room_enum);
-    window_enum getWindow(room_enum);
+    heater_enum getHeater(int);
+    window_enum getWindow(int);
     void setFan(fan_enum);
-    void setHeater(room_enum, heater_enum);
-    void setWindow(room_enum, window_enum);
-    double roomTemperature(room_enum);   // return the room temperatures
+    void setHeater(int, heater_enum);
+    void setWindow(int, window_enum);
+    std::vector<double>  roomTemperature();   // return the room temperatures
 
     // Typical behaviour methods
     void simulate();    // Public method to start simulating the Building environment

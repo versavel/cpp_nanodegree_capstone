@@ -17,12 +17,12 @@ fan_enum Building::getFan()
     return _fan_state;
 }
 
-heater_enum Building::getHeater(room_enum rm)
+heater_enum Building::getHeater(int rm)
 {
     return _heater_state[rm];
 }
 
-window_enum Building::getWindow(room_enum rm)
+window_enum Building::getWindow(int rm)
 {
     return _window_state[rm];
 }
@@ -32,20 +32,20 @@ void Building::setFan(fan_enum state)
     _fan_state = state; 
 }
 
-void Building::setHeater(room_enum rm, heater_enum state)
+void Building::setHeater(int rm, heater_enum state)
 {
     _heater_state[rm] = state;
 }
 
-void Building::setWindow(room_enum rm, window_enum state)
+void Building::setWindow(int rm, window_enum state)
 {
     _window_state[rm] = state;
 }
 
 // return the room temperatures
-double Building::roomTemperature(room_enum rm)
+std::vector<double>  Building::roomTemperature()
 {
-    return _actual_temperature[rm];
+    return _actual_temperature;
 }
 
 // Public method to start simulating the Building environment

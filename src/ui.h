@@ -29,7 +29,11 @@ class UI
     void printTimeOfDay();
     void printAmbientTemp();
     void printSolarInfo();
-    void printRoomTemperatures();
+    void printBuildingInfo();
+    std::string winP(int i);
+    std::string tmpP(int i);
+    std::string htrP(int i);
+    std::string fanP();
 
     std::shared_ptr<World> _world;
     std::shared_ptr<Building> _building;

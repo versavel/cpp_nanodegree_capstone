@@ -15,7 +15,7 @@ void UI::updateUI()
     printTimeOfDay();
     printAmbientTemp();
     printSolarInfo();
-    printRoomTemperatures();
+    printBuildingInfo();   
 }
 
 void UI::printTimeOfDay()
@@ -37,17 +37,27 @@ void UI::printTimeOfDay()
     else
         mm = std::to_string(m);
     
-    std::cout << "         Time Of Day : " <<  hh << ":" << mm << std::endl; 
+    std::cout << "-------------------------------------------------" << std::endl;
+    std::cout << std::endl << "Time Of Day   : " <<  hh << ":" << mm << std::endl;
+    std::cout << std::endl; 
 }
 
 void UI::printAmbientTemp()
 {
-    std::cout << "Ambient Temperature  : " <<  double(int(10*(_world->ambientTemperature()-273)))/10 << " C" << std::endl;
+    std::cout << "Ambient Temp. : " <<  double(int(10*(_world->ambientTemperature()-273)))/10 << " C" << std::endl;
+    std::cout << std::endl;
 }
 
 std::string degreesToWindRose(double direction)
 {
-    switch ((int) (direction/16)) {
+    double rotate = direction + 11.25;
+    double times1000 = rotate * 1000;
+    int truncate = (int) times1000;
+    int modulo = truncate % 360000;
+    double double_mod = (double) modulo;
+    double div1000 = double_mod / 1000;
+    int section = (int) (div1000 / 22.5);
+    switch (section) {
         case 4: return "E";
         case 5: return "ESE";
         case 6: return "SE";
@@ -62,14 +72,48 @@ std::string degreesToWindRose(double direction)
 
 void UI::printSolarInfo() 
 {
-    std::cout << "     Solar Radiation : " << round(_world->solarRadiationLevel()) << " W/m2, " << degreesToWindRose(_world->azimuthAngle()) << std::endl;
+    std::cout << "Solar Heating : " << round(_world->solarRadiationLevel()) << " W/m2, " << degreesToWindRose(_world->azimuthAngle()) << std::endl;
+    std::cout << std::endl;
 }
 
-void UI::printRoomTemperatures()
+std::string UI::tmpP(int i) 
 {
-    std::cout << "   Room Temperature" << std::endl;
-    std::cout << "               North : " <<  double(int(10*(_building->roomTemperature(room_enum::North)-273)))/10 << " C" << std::endl;
-    std::cout << "               East  : " <<  double(int(10*(_building->roomTemperature(room_enum::East)-273)))/10 << " C" << std::endl;
-    std::cout << "               South : " <<  double(int(10*(_building->roomTemperature(room_enum::South)-273)))/10 << " C" << std::endl;
-    std::cout << "               West  : " <<  double(int(10*(_building->roomTemperature(room_enum::West)-273)))/10 << " C" << std::endl;
+    char buffer [5];
+    sprintf (buffer, "   %4.1f C", _building->roomTemperature()[i]-273);
+    return buffer;
+}
+
+std::string UI::winP(int i) 
+{
+    if (_building->getWindow(i) == window_enum::closed) 
+        return " closed  ";
+    else 
+        return " open   ";
+}
+
+std::string UI::htrP(int i) 
+{
+    if (_building->getHeater(i) == heater_enum::heat_off) 
+        return "  off  ";
+    else 
+        return "  on   ";
+}
+
+std::string UI::fanP() 
+{
+    if (_building->getFan() == fan_enum::fan_off)
+        return "   off  ";
+    else 
+        return "   on   ";
+}
+
+void UI::printBuildingInfo()
+{
+    std::cout << " Room  :  Window : Heater : Fan : Temperature" << std::endl;
+    std::cout << " ---      ------   ------   ---   -----------" << std::endl;
+    std::cout << " North : " <<  winP(0) << htrP(0) << fanP() << tmpP(0) << std::endl;
+    std::cout << " East  : " <<  winP(1) << htrP(1) << fanP() << tmpP(1) << std::endl;
+    std::cout << " South : " <<  winP(2) << htrP(2) << fanP() << tmpP(2) << std::endl;
+    std::cout << " West  : " <<  winP(3) << htrP(3) << fanP() << tmpP(3) << std::endl;
+    std::cout << std::endl;
 }
