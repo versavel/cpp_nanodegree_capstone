@@ -1,6 +1,7 @@
 #ifndef UI_H
 #define UI_H
 
+#include <memory>
 #include "world.h"
 #include "building.h"
 #include "controller.h"

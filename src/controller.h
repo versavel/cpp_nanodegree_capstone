@@ -1,6 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include <memory>
 #include "world.h"
 #include "building.h"
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <memory>
 #include "world.h"
 
 enum room_enum {North, East, South, West};

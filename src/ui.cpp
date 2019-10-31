@@ -66,14 +66,14 @@ void UI::printTopSection()
 
 std::string UI::ambP() 
 {
-    char buffer [5];
+    char buffer [20];
     sprintf (buffer, "%4.1f C", _world->ambientTemperature()-273);
     return buffer;
 }
 
 std::string UI::tmpP(int i) 
 {
-    char buffer [5];
+    char buffer [20];
     sprintf (buffer, "   %4.1f C", _building->roomTemperature()[i]-273);
     return buffer;
 }
