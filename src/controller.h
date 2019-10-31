@@ -16,6 +16,9 @@ class Controller
     Controller(std::shared_ptr<World> world, std::shared_ptr<Building> building): _world(world), _building(building) {};
     //~Controller() {};
 
+    // Getter functions
+    double targetTemperature();
+
     // Typical behaviour methods
     void simulate();    // Public method to start simulating the Controller
     

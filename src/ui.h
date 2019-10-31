@@ -26,10 +26,9 @@ class UI
     private:
     // Typical behaviour methods
     void updateUI();    // Private method to simluate the User Interface
-    void printTimeOfDay();
-    void printAmbientTemp();
-    void printSolarInfo();
-    void printBuildingInfo();
+    void printTopSection();
+    void printBottomSection();
+    std::string ambP();
     std::string winP(int i);
     std::string tmpP(int i);
     std::string htrP(int i);

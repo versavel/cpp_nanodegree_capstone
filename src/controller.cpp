@@ -6,6 +6,10 @@ static double const alpha = 2;  // threshold value for controlling the heaters a
 static double const beta = 1;  // threshold value for controlling the fan, Units: degree K
 
 // Public method to start simulating the Controller
+double Controller::targetTemperature() {
+    return t_target;
+}
+
 void Controller::simulate()
 {
     updateController();
