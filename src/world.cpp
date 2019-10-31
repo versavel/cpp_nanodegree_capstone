@@ -25,9 +25,6 @@ World::World(long time_step)
     _azimuth_angle = 0;
 }
 
-// Deconstructor
-//World::~World() {};
-
 // Return simalation clock value (seconds)
 long World::clock()
 {

@@ -32,7 +32,7 @@ class Building
         _interval = 0;
     };
     
-    //~Building() {};
+    ~Building() {};
 
     // Getters and Setters
     fan_enum getFan();

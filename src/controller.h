@@ -14,7 +14,7 @@ class Controller
     
     // Constructor and Deconstructors
     Controller(std::shared_ptr<World> world, std::shared_ptr<Building> building): _world(world), _building(building) {};
-    //~Controller() {};
+    ~Controller() {};
 
     // Getter functions
     double targetTemperature();

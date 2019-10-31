@@ -26,21 +26,15 @@ void Controller::updateController()
 void Controller::updateHeatersAndWindows()
 {
     double t_avg = averageRoomTemperature();
-    //std::cout << "hello from updateHeatersAndWindows, Avg Temp is " << t_avg << ", target T is " << t_target << " and alpha is " << alpha << std::endl;
     if (t_avg > t_target + alpha) {
-        //std::cout << "t_avg > t_target + alpha" << std::endl;
         for (int i = 0; i < 4; i++) {
             if (_building->roomTemperature()[i] > t_target ) {
-                //std::cout << "opening window " << i << std::endl;
                 _building->setWindow(i, window_enum::open); } }
     } else if (t_avg < t_target) {
-        //std::cout << "t_avg - t_target - alpha" << std::endl;
         for (int i = 0; i < 4; i++) {
             if (_building->roomTemperature()[i] < t_target ) {
-                //std::cout << "turning on heater " << i << std::endl;
                 _building->setHeater(i, heater_enum::heat_on); } }
     } else {
-        //std::cout << "closing windows and turning off heaters" << std::endl;
         for (int i = 0; i < 4; i++) {
            _building->setWindow(i, window_enum::closed);
            _building->setHeater(i, heater_enum::heat_off); }

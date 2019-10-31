@@ -16,7 +16,7 @@ class UI
     // Constructor and Deconstructors
     UI(std::shared_ptr<World> world, std::shared_ptr<Building> building, std::shared_ptr<Controller> controller): 
         _world(world), _building(building), _controller(controller) {};
-    //~UI() {};
+    ~UI() {};
 
     // Getters and Setters
 

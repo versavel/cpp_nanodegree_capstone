@@ -11,7 +11,7 @@ class World
     
     // Constructor and Deconstructors
     World(long time_step);
-    //~World();
+    ~World() {};
 
     // Getters and Setters
     long clock();
