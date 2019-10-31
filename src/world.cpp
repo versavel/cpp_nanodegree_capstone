@@ -17,7 +17,7 @@ double radians(double seconds)
 // Constructor
 World::World(long time_step)
 {
-    _clock = 43200/2*1.5; // 82800;
+    _clock = 0;
     _time_step = time_step;
     _time_of_day = 0;
     _ambient_temperature = 383;
@@ -95,10 +95,10 @@ void World::updateAmbientTemperature()
 // Update the level of solar radiation. Units: W m-2
 //      The level of solar is modeled here as the positive part of a sine wave,
 //      starting and ending at 6 am and 6 pm, respectively.
-//      Its peak level is 100 W m-2, at 12 pm noon.
+//      Its peak level is 400 W m-2, at 12 pm noon.
 void World::updateSolarRadiationLevel()
 {
-    _solar_radiation = 100 * std::max(std::sin(radians(_time_of_day - 6*kSecInHour)), 0.);
+    _solar_radiation = 400 * std::max(std::sin(radians(_time_of_day - 6*kSecInHour)), 0.);
 }
 
 // Update the azimuth angle of the sun, relative to the sun. Units: degrees

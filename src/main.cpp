@@ -22,10 +22,11 @@ int main() {
     {
         world->simulate();
         building->simulate();
-        //controller->simulate();
+        controller->simulate();
         if (world->timeOfDay() % 3600 == 0) {
             ui->simulate(); }
-        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
     return 0;
 }

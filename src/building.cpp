@@ -9,6 +9,9 @@ static double const kCpAir = 1000.0;  // specific heat of air at constant pressu
 static double const kRoomVolume = 950;  // in m2
 static double const kRoomWindowArea = 57;  // surface area of the room exposed to the World, in m3
 static double const kRoomWindowSolarArea = 36;  // effective surface area of the room exposed to the sun radiation, in m2
+static double const kRoom_air_mass = kRhoAir * kRoomVolume; // kg
+static double const kRoom_heat_capacity = kCpAir * kRoom_air_mass; // J K-1
+
 static double const alpha_mixing = 0.05;  // fan mixing coefficient
 static double const alpha_venting = 0.025; // window venting coefficient
 
@@ -75,11 +78,12 @@ void Building::updateActualTemperatures()
     std::vector<double> dt_venting = deltaTempWindowVenting();
     std::vector<double> dt_solar = deltaTempSolar();
     std::vector<double> dt_bb_radiation = deltaTempBlackBodyRadiation();
+    std::vector<double> dt_heating = deltaTempHeater();
    
    // Update the room temperatures
    for (int rm = 0; rm < _actual_temperature.size(); rm++) {
         //std::cout << "dt " << dt_mixing[rm] << " | " << dt_venting[rm] << " | " << dt_solar[rm] << " | " << dt_bb_radiation[rm] << std::endl;
-        _actual_temperature[rm] += dt_mixing[rm] + dt_venting[rm] + dt_solar[rm] + dt_bb_radiation[rm]; }
+        _actual_temperature[rm] += dt_mixing[rm] + dt_venting[rm] + dt_solar[rm] + dt_bb_radiation[rm] + dt_heating[rm]; }
 }
 
 // Calculate room temperature change due to mixing by the fan
@@ -121,9 +125,7 @@ std::vector<double> Building::deltaTempWindowVenting()
 // Calculate room temperature change due to Solar Radiation
 std::vector<double> Building::deltaTempSolar()
 {
-    double room_air_mass = kRhoAir * kRoomVolume; // kg
-    double room_heat_capacity = kCpAir * room_air_mass; // J K-1
-    double total_dt = _world->solarRadiationLevel() * kRoomWindowSolarArea * _interval / room_heat_capacity; // K
+    double total_dt = _world->solarRadiationLevel() * kRoomWindowSolarArea * _interval / kRoom_heat_capacity; // K
 
     // split total_dt between the E, S, and W rooms
     std::vector<double> dt {0, 0, 0, 0};
@@ -143,13 +145,24 @@ std::vector<double> Building::deltaTempBlackBodyRadiation()
 {
     std::vector<double> dt;
 
-    double room_air_mass = kRhoAir * kRoomVolume; // kg
-    double room_heat_capacity = kCpAir * room_air_mass; // J K-1
-
     for (int rm = 0; rm < _actual_temperature.size(); rm++) {
         double p = kSigma * kRoomWindowArea * (pow(_world->ambientTemperature(), 4) - pow(_actual_temperature[rm], 4)); // W
-        double dt_ = p * _interval / room_heat_capacity; // K
+        double dt_ = p * _interval / kRoom_heat_capacity; // K
         dt.push_back(dt_); }
 
     return dt;
 } 
+
+// Calculate room temperature changes due to the room heaters 
+std::vector<double> Building::deltaTempHeater()
+{
+    // Calculate the change in room temperature in each room
+    std::vector<double> dt;
+    for (int rm = 0; rm < _actual_temperature.size(); rm++) {
+        if (_heater_state[rm] == heater_enum::heat_off) {
+            dt.push_back(0); } 
+        else {
+            dt.push_back(10000 * _interval / kRoom_heat_capacity);} }
+
+    return dt;
+}

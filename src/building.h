@@ -55,6 +55,7 @@ class Building
     std::vector<double> deltaTempWindowVenting();// Calculate room temperature changes due to venting through the open windows
     std::vector<double> deltaTempSolar();// Calculate room temperature changes due to Solar Radiation 
     std::vector<double> deltaTempBlackBodyRadiation();// Calculate room temperature changes due to Black Body Radiation 
+    std::vector<double> deltaTempHeater();// Calculate room temperature changes due to the room heaters 
     
     std::vector<double> _actual_temperature;
     fan_enum _fan_state;

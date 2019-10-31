@@ -88,7 +88,7 @@ std::string UI::winP(int i)
     if (_building->getWindow(i) == window_enum::closed) 
         return " closed  ";
     else 
-        return " open   ";
+        return " open    ";
 }
 
 std::string UI::htrP(int i) 
@@ -111,9 +111,9 @@ void UI::printBuildingInfo()
 {
     std::cout << " Room  :  Window : Heater : Fan : Temperature" << std::endl;
     std::cout << " ---      ------   ------   ---   -----------" << std::endl;
-    std::cout << " North : " <<  winP(0) << htrP(0) << fanP() << tmpP(0) << std::endl;
-    std::cout << " East  : " <<  winP(1) << htrP(1) << fanP() << tmpP(1) << std::endl;
-    std::cout << " South : " <<  winP(2) << htrP(2) << fanP() << tmpP(2) << std::endl;
-    std::cout << " West  : " <<  winP(3) << htrP(3) << fanP() << tmpP(3) << std::endl;
+    std::cout << " North   " <<  winP(0) << htrP(0) << fanP() << tmpP(0) << std::endl;
+    std::cout << " East    " <<  winP(1) << htrP(1) << fanP() << tmpP(1) << std::endl;
+    std::cout << " South   " <<  winP(2) << htrP(2) << fanP() << tmpP(2) << std::endl;
+    std::cout << " West    " <<  winP(3) << htrP(3) << fanP() << tmpP(3) << std::endl;
     std::cout << std::endl;
 }
